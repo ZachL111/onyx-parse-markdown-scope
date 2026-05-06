@@ -1,68 +1,40 @@
 # onyx-parse-markdown-scope
 
-`onyx-parse-markdown-scope` is a focused Ruby codebase around implement a Ruby parsers project for markdown resource planning, using capacity fixtures and allocation and spill reports. It is meant to be easy to inspect, run, and extend without a hosted service.
+`onyx-parse-markdown-scope` is a compact Ruby repository for parsers, centered on this goal: Implement a Ruby parsers project for markdown resource planning, using capacity fixtures and allocation and spill reports.
 
-## Onyx Parse Markdown Scope Walkthrough
+## Purpose
 
-I would read the project from the outside in: command, fixture, model, then roadmap. That keeps the parsers idea grounded in files that can be checked locally.
+I want this repository to be useful as a quick reading exercise: fixtures first, implementation second, verifier last.
 
-## How It Is Put Together
+## Onyx Parse Markdown Scope Review Notes
 
-The interesting part is the boundary between accepted and reviewed scenarios. Extended examples sit near that boundary so future edits can show whether the model became more permissive or more cautious. The Ruby code keeps the module small and leans on Minitest for direct fixture checks.
+Start with `token drift` and `grammar width`. Those cases create the widest score spread in this repo, so they are the best quick check when the model changes.
 
-## Reason For The Project
+## What Is Covered
 
-I use this kind of project to make a rule visible before adding more machinery around it. The important part here is not the size of the codebase. It is that the input signals, scoring rule, fixture data, and expected output can all be checked in one sitting.
+- `fixtures/domain_review.csv` adds cases for token drift and grammar width.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/onyx-parse-markdown-walkthrough.md` walks through the case spread.
+- The Ruby code includes a review path for `token drift` and `grammar width`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## Capabilities
+## Implementation Notes
 
-- Uses fixture data to keep error labels changes visible in code review.
-- Includes extended examples for grammar boundaries, including `surge` and `degraded`.
-- Documents golden examples tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
+The repository has two validation layers: the original compact policy fixture and the domain review fixture. They are separate so one can change without hiding failures in the other.
 
-## Data Notes
+The added Ruby path is deliberately direct, with fixtures doing most of the explaining.
 
-`recovery` is the first example I would inspect because it lands on the `review` path with a score of 145. The broader file also keeps `degraded` at -81 and `surge` at 166, which gives the model a useful low-to-high spread.
-
-## Where Things Live
-
-- `lib`: library code
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
-
-## Getting It Running
-
-Install Ruby and run the commands from the repository root. The project does not need credentials or a hosted service.
-
-## Command Examples
+## Command
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Audit Path
 
-## Check The Work
+The verifier is intentionally local. It should fail if the fixture score math, lane assignment, or language-specific test drifts.
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
+## Limits
 
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Tradeoffs
-
-The scoring model is simple by design. More domain-specific behavior should be added through explicit adapters or extra fixture classes rather than hidden constants.
-
-## Possible Extensions
-
-- Add malformed input fixtures so the failure path is as visible as the happy path.
-- Split the scoring constants into a typed configuration object and validate it before use.
-- Add a comparison mode that shows how decisions change when one signal is adjusted.
-- Add one more parsers fixture that focuses on a malformed or borderline input.
+No external service is required. A deeper version would add more negative cases and a clearer boundary around invalid input.

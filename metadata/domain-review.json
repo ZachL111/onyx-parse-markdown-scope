@@ -1,0 +1,73 @@
+{
+  "repo": "onyx-parse-markdown-scope",
+  "language": "Ruby",
+  "category": "Parsers",
+  "goal": "Implement a Ruby parsers project for markdown resource planning, using capacity fixtures and allocation and spill reports.",
+  "review_model": {
+    "terms": [
+      "token drift",
+      "grammar width",
+      "label quality",
+      "error locality"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "token drift",
+      "signal": 63,
+      "slack": 20,
+      "drag": 22,
+      "confidence": 94,
+      "score": 174,
+      "lane": "ship"
+    },
+    {
+      "name": "stress",
+      "focus": "grammar width",
+      "signal": 56,
+      "slack": 39,
+      "drag": 31,
+      "confidence": 69,
+      "score": 127,
+      "lane": "watch"
+    },
+    {
+      "name": "edge",
+      "focus": "label quality",
+      "signal": 52,
+      "slack": 25,
+      "drag": 14,
+      "confidence": 76,
+      "score": 163,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "error locality",
+      "signal": 85,
+      "slack": 31,
+      "drag": 29,
+      "confidence": 65,
+      "score": 179,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "token drift",
+      "signal": 82,
+      "slack": 40,
+      "drag": 28,
+      "confidence": 87,
+      "score": 207,
+      "lane": "ship"
+    }
+  ]
+}
