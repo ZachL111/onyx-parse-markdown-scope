@@ -1,0 +1,17 @@
+{
+  "repo": "onyx-parse-markdown-scope",
+  "thresholds": {
+    "signal": 2,
+    "slack": 1,
+    "confidence": 1,
+    "drag": 3,
+    "ship": 181,
+    "watch": 111
+  },
+  "terms": [
+    "token drift",
+    "grammar width",
+    "label quality",
+    "error locality"
+  ]
+}
